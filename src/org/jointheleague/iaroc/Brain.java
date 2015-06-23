@@ -27,5 +27,9 @@ public class Brain extends IRobotCreateAdapter {
 
     }
     /* This method is called repeatedly. */
-    public void loop() throws ConnectionLostException {}
+    public void loop() throws ConnectionLostException, InterruptedException
+    {
+        sonar.read();
+        dashboard.log(sonar.getRightDistance() +   "   "  + sonar.getFrontDistance() + "   " + sonar.getLeftDistance());
+    }
 }

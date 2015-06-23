@@ -2,7 +2,8 @@ package org.jointheleague.iaroc.sensors;
 
 /**************************************************************************
  * Simplified version 140512A by Erik  Super Happy Version
- * version 150225A AndroidStudio version
+ * version 15623A AndroidStudio version for original Create Ultrasonics works
+ * by Vic
  **************************************************************************/
 import ioio.lib.api.DigitalOutput;
 import ioio.lib.api.IOIO;
@@ -34,6 +35,9 @@ public class UltraSonicSensors
 	private volatile int frontDistance;
 	private volatile int rightDistance;
 	private IOIO ioio;
+	private PulseInput leftInput;
+	private PulseInput frontInput;
+	private PulseInput rightInput;
 
 	/**
 	 * Constructor of a UltraSonicSensors instance.
@@ -46,6 +50,7 @@ public class UltraSonicSensors
 		this.leftStrobe = ioio.openDigitalOutput(LEFT_STROBE_ULTRASONIC_OUTPUT_PIN);
 		this.rightStrobe = ioio.openDigitalOutput(RIGHT_STROBE_ULTRASONIC_OUTPUT_PIN);
 		this.frontStrobe = ioio.openDigitalOutput(FRONT_STROBE_ULTRASONIC_OUTPUT_PIN);
+
 	}
 
 	/**
@@ -57,23 +62,27 @@ public class UltraSonicSensors
 	 */
 	public void read() throws ConnectionLostException, InterruptedException
 	{
-		leftDistance = read(leftStrobe, LEFT_ULTRASONIC_INPUT_PIN);
-		frontDistance = read(frontStrobe, FRONT_ULTRASONIC_INPUT_PIN);
-		rightDistance = read(rightStrobe, RIGHT_ULTRASONIC_INPUT_PIN);
+		leftDistance = read(leftStrobe, LEFT_ULTRASONIC_INPUT_PIN, leftInput);
+		frontDistance = read(frontStrobe, FRONT_ULTRASONIC_INPUT_PIN, frontInput);
+		rightDistance = read(rightStrobe, RIGHT_ULTRASONIC_INPUT_PIN, rightInput);
 	}
 
-	private int read(DigitalOutput strobe, int inputPin) throws ConnectionLostException, InterruptedException
-	{
-		ioio.beginBatch();//order of statements critical...do not change
-		strobe.write(true);
-		PulseInput input = ioio.openPulseInput(inputPin, PulseMode.POSITIVE);
-		ioio.endBatch();
-		SystemClock.sleep(20);
-		strobe.write(false);
-		int distance = (int) (input.getDuration() * CONVERSION_FACTOR);
-		input.close();
-		return distance;
-	}
+
+private int read(DigitalOutput strobe,  int inputPin, PulseInput input)
+		throws ConnectionLostException, InterruptedException  // Order of following  statements is very important...do not change
+{
+	int distance = 0;
+	ioio.beginBatch();
+	strobe.write(true);
+	input = ioio.openPulseInput(inputPin, PulseMode.POSITIVE);
+	ioio.endBatch();
+	SystemClock.sleep(40);
+	strobe.write(false);
+	distance += (int) (input.getDuration() * CONVERSION_FACTOR);
+	input.close();
+	return distance;
+}
+
 
 	public int getLeftDistance()
 	{
