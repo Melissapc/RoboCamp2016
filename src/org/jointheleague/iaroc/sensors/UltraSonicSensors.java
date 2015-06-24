@@ -2,8 +2,8 @@ package org.jointheleague.iaroc.sensors;
 
 /**************************************************************************
  * Simplified version 140512A by Erik  Super Happy Version
- * version 15623A AndroidStudio version for original Create Ultrasonics works
- * by Vic
+ * version 150624A AndroidStudio version for original Create Ultrasonics works
+ * by Vic  Requires tri-state fix and ultrasonic jumpers for 4 pin ultrasonics
  **************************************************************************/
 import ioio.lib.api.DigitalOutput;
 import ioio.lib.api.IOIO;
@@ -11,6 +11,8 @@ import ioio.lib.api.PulseInput;
 import ioio.lib.api.PulseInput.PulseMode;
 import ioio.lib.api.exception.ConnectionLostException;
 import android.os.SystemClock;
+
+import org.jointheleague.iaroc.Dashboard;
 
 /**
  * An UltraSonicSensors instance is used to access three ultrasonic sensors
@@ -38,19 +40,20 @@ public class UltraSonicSensors
 	private PulseInput leftInput;
 	private PulseInput frontInput;
 	private PulseInput rightInput;
+	private Dashboard dashboard;
 
 	/**
 	 * Constructor of a UltraSonicSensors instance.
 	 * @param ioio the IOIO instance used to communicate with the sensor
 	 * @throws ConnectionLostException
 	 */
-	public UltraSonicSensors(IOIO ioio) throws ConnectionLostException
+	public UltraSonicSensors(IOIO ioio, Dashboard dashboard) throws ConnectionLostException
 	{
 		this.ioio = ioio;
 		this.leftStrobe = ioio.openDigitalOutput(LEFT_STROBE_ULTRASONIC_OUTPUT_PIN);
 		this.rightStrobe = ioio.openDigitalOutput(RIGHT_STROBE_ULTRASONIC_OUTPUT_PIN);
 		this.frontStrobe = ioio.openDigitalOutput(FRONT_STROBE_ULTRASONIC_OUTPUT_PIN);
-
+		this.dashboard = dashboard;
 	}
 
 	/**
@@ -62,8 +65,8 @@ public class UltraSonicSensors
 	 */
 	public void read() throws ConnectionLostException, InterruptedException
 	{
-		leftDistance = read(leftStrobe, LEFT_ULTRASONIC_INPUT_PIN, leftInput);
-		frontDistance = read(frontStrobe, FRONT_ULTRASONIC_INPUT_PIN, frontInput);
+//		leftDistance = read(leftStrobe, LEFT_ULTRASONIC_INPUT_PIN, leftInput);
+//		frontDistance = read(frontStrobe, FRONT_ULTRASONIC_INPUT_PIN, frontInput);
 		rightDistance = read(rightStrobe, RIGHT_ULTRASONIC_INPUT_PIN, rightInput);
 	}
 

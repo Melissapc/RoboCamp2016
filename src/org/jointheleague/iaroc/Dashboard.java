@@ -40,8 +40,7 @@ import android.widget.TextView;
  * @author Erik Colban
  * 
  */
-public class Dashboard extends IOIOActivity implements
-		TextToSpeech.OnInitListener, SensorEventListener {
+public class Dashboard extends IOIOActivity implements TextToSpeech.OnInitListener, SensorEventListener {
 
 	/**
 	 * Text view that contains all logged messages

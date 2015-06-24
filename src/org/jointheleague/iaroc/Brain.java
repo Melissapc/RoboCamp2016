@@ -13,7 +13,7 @@ public class Brain extends IRobotCreateAdapter {
     public Brain(IOIO ioio, IRobotCreateInterface create, Dashboard dashboard)
             throws ConnectionLostException {
         super(create);
-        sonar = new UltraSonicSensors(ioio);
+        sonar = new UltraSonicSensors(ioio, dashboard);
         this.dashboard = dashboard;
     }
 
