@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/RoboCamp2016a.iml" filepath="$PROJECT_DIR$/RoboCamp2016a.iml" />
+      <module fileurl="file://$PROJECT_DIR$/RoboCamp2016.iml" filepath="$PROJECT_DIR$/RoboCamp2016.iml" />
     </modules>
   </component>
 </project>
+
